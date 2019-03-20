@@ -1,0 +1,14 @@
+body {
+  margin: 0px;
+  width: 100vw;
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
+}
+.Map {
+  height: 100%;
+  display: block;
+  margin: 0 auto;
+}
