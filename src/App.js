@@ -2,6 +2,16 @@ import React, { Component } from "react";
 import "./App.css";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+import {
+  Card,
+  Button,
+  CardTitle,
+  CardText,
+  Form,
+  FormGroup,
+  Label,
+  Input
+} from "reactstrap";
 
 let myIcon = L.icon({
   iconUrl:
@@ -54,21 +64,49 @@ class App extends Component {
   render() {
     const position = [this.state.location.lat, this.state.location.lng];
     return (
-      <Map center={position} zoom={this.state.zoom} className="Map">
-        <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {this.state.haveUsersLocation ? (
-          <Marker position={position} icon={myIcon}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
-        ) : (
-          ""
-        )}
-      </Map>
+      <div className="Map">
+        <Map center={position} zoom={this.state.zoom} className="Map">
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {this.state.haveUsersLocation ? (
+            <Marker position={position} icon={myIcon}>
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          ) : (
+            ""
+          )}
+        </Map>
+        <Card body className="message-form">
+          <CardTitle>Welcome to Mapper</CardTitle>
+          <CardText>Leave a message with your location!</CardText>
+          <CardText>Thanks for stopping by.</CardText>
+          <Form>
+            <FormGroup>
+              <Label for="name">Name</Label>
+              <Input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Enter your name"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="message">Message</Label>
+              <Input
+                type="textarea"
+                name="message"
+                id="message"
+                placeholder="Enter your message"
+              />
+            </FormGroup>
+          </Form>
+          <Button color="info">Send</Button>{" "}
+        </Card>
+      </div>
     );
   }
 }
