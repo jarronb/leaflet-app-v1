@@ -33,7 +33,9 @@ const schema = Joi.object()
   .without('password', 'access_token');
 
 router.get('/', (req, res) => {
-  res.json([]);
+  messages.find().then((allMessages) => {
+    res.json(allMessages);
+  });
 });
 
 router.post('/', (req, res, next) => {
