@@ -8,7 +8,8 @@
     "dev": "nodemon src/index.js",
     "lint": "eslint --fix src",
     "audit": "snyk test",
-    "test": "mocha -w"
+    "test": "mocha -w",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd ../client && npm install && npm run build"
   },
   "keywords": [],
   "author": "CJ R. <cj@null.computer> (https://w3cj.now.sh)",

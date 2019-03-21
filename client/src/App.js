@@ -38,7 +38,7 @@ const schema = Joi.object().keys({
 const API_URL =
   window.location.hostname === 'localhost'
     ? 'http://localhost:5000/api/v1/messages'
-    : 'production-url-here';
+    : 'https://leafletv1.herokuapp.com/api/v1/messages';
 
 class App extends Component {
   state = {
@@ -244,6 +244,7 @@ class App extends Component {
           <CardText>Leave a message with your location!</CardText>
           <CardText>Thanks for stopping by.</CardText>
           {form}
+          {this.state.sentMessage ? <CardText><strong>Thanks For submitting the message</strong></CardText>}
         </Card>
       </div>
     );
