@@ -244,7 +244,13 @@ class App extends Component {
           <CardText>Leave a message with your location!</CardText>
           <CardText>Thanks for stopping by.</CardText>
           {form}
-          {this.state.sentMessage ? <CardText><strong>Thanks For submitting the message</strong></CardText>}
+          {this.state.sentMessage ? (
+            <CardText>
+              <strong>Thanks For submitting the message</strong>
+            </CardText>
+          ) : (
+            ''
+          )}
         </Card>
       </div>
     );
