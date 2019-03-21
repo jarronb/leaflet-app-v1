@@ -14,11 +14,8 @@ const schema = Joi.object()
   .keys({
     name: Joi.string()
       .alphanum()
-      .min(1)
-      .max(100)
-      .required(),
+      .regex(/^[A-Za-zÀ-ÿ]{1,100}$/),
     message: Joi.string()
-      .alphanum()
       .min(1)
       .max(500)
       .required(),
@@ -42,11 +39,12 @@ router.get('/', (req, res) => {
 router.post('/', (req, res, next) => {
   const result = Joi.validate(req.body, schema);
   if (result.error === null) {
-    const { name, message, latitude } = req.body;
+    const { name, message, latitude, longitude } = req.body;
     const userMessage = {
       name,
       message,
       latitude,
+      longitude,
       date: new Date()
     };
 
@@ -54,9 +52,6 @@ router.post('/', (req, res, next) => {
     messages.insert(userMessage).then((insertedMessage) => {
       res.json(insertedMessage);
     });
-    // add current time
-    // insert into db
-    res.json([]);
   } else {
     next(result.error);
   }

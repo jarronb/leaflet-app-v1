@@ -16,3 +16,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 #### Other
 
 - [ipapi](https://ipapi.co/)
+- [Super Test](https://github.com/visionmedia/supertest)
