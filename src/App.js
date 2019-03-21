@@ -27,6 +27,10 @@ class App extends Component {
       lat: 51.505,
       lng: -0.09
     },
+    messageForm: {
+      name: "",
+      message: ""
+    },
     haveUsersLocation: false,
     zoom: 2
   };
@@ -61,6 +65,22 @@ class App extends Component {
     );
   };
 
+  inputChanged = event => {
+    let { name, value } = event.target;
+
+    this.setState(prevState => ({
+      messageForm: {
+        ...prevState.messageForm,
+        [name]: value
+      }
+    }));
+  };
+
+  messageFormSubmitted = event => {
+    event.preventDefault();
+    console.log(this.state.messageForm);
+  };
+
   render() {
     const position = [this.state.location.lat, this.state.location.lng];
     return (
@@ -84,7 +104,7 @@ class App extends Component {
           <CardTitle>Welcome to Mapper</CardTitle>
           <CardText>Leave a message with your location!</CardText>
           <CardText>Thanks for stopping by.</CardText>
-          <Form>
+          <Form id="messageForm" onSubmit={this.messageFormSubmitted}>
             <FormGroup>
               <Label for="name">Name</Label>
               <Input
@@ -92,6 +112,7 @@ class App extends Component {
                 name="name"
                 id="name"
                 placeholder="Enter your name"
+                onChange={this.inputChanged}
               />
             </FormGroup>
             <FormGroup>
@@ -101,10 +122,13 @@ class App extends Component {
                 name="message"
                 id="message"
                 placeholder="Enter your message"
+                onChange={this.inputChanged}
               />
             </FormGroup>
           </Form>
-          <Button color="info">Send</Button>{" "}
+          <Button form="messageForm" color="info">
+            Send
+          </Button>{" "}
         </Card>
       </div>
     );
