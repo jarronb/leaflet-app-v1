@@ -2,7 +2,10 @@
   "name": "express-api-starter",
   "version": "1.2.0",
   "description": " A basic starter for an express.js API",
-  "main": "index.js",
+  "main": "src/index.js",
+  "engines": {
+    "node": "9.2.1"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
