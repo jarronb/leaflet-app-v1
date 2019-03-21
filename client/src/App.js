@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Joi from 'joi';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import svg from './assets/spinner.svg';
 import L from 'leaflet';
 import {
   Card,
@@ -48,7 +49,9 @@ class App extends Component {
       message: ''
     },
     haveUsersLocation: false,
-    zoom: 2
+    zoom: 2,
+    sendingMessage: false,
+    sentMessage: false
   };
 
   componentDidMount = () => {
@@ -104,6 +107,9 @@ class App extends Component {
   messageFormSubmitted = (event) => {
     event.preventDefault();
     if (this.formIsValid()) {
+      this.setState({
+        sendingMessage: true
+      });
       fetch(API_URL, {
         method: 'POST',
         headers: {
@@ -117,33 +123,25 @@ class App extends Component {
         })
       })
         .then((response) => response.json())
-        .then((message) => {});
+        .then((message) => {
+          console.log(message);
+          setTimeout(() => {
+            this.setState({
+              sendingMessage: false,
+              sentMessage: true
+            });
+          }, 1000);
+        });
     }
   };
 
   render() {
     const position = [this.state.location.lat, this.state.location.lng];
-    return (
-      <div className='Map'>
-        <Map center={position} zoom={this.state.zoom} className='Map'>
-          <TileLayer
-            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          />
-          {this.state.haveUsersLocation ? (
-            <Marker position={position} icon={myIcon}>
-              <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup>
-            </Marker>
-          ) : (
-            ''
-          )}
-        </Map>
-        <Card body className='message-form'>
-          <CardTitle>Welcome to Mapper</CardTitle>
-          <CardText>Leave a message with your location!</CardText>
-          <CardText>Thanks for stopping by.</CardText>
+    let form = null;
+
+    if (!this.state.sendingMessage && !this.state.sentMessage) {
+      form = (
+        <React.Fragment>
           <Form id='messageForm' onSubmit={this.messageFormSubmitted}>
             <FormGroup>
               <Label for='name'>Name</Label>
@@ -173,6 +171,34 @@ class App extends Component {
           >
             Send
           </Button>{' '}
+        </React.Fragment>
+      );
+    } else if (this.state.sendingMessage) {
+      form = <img src={svg} />;
+    }
+
+    return (
+      <div className='Map'>
+        <Map center={position} zoom={this.state.zoom} className='Map'>
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          />
+          {this.state.haveUsersLocation ? (
+            <Marker position={position} icon={myIcon}>
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          ) : (
+            ''
+          )}
+        </Map>
+        <Card body className='message-form'>
+          <CardTitle>Welcome to Mapper</CardTitle>
+          <CardText>Leave a message with your location!</CardText>
+          <CardText>Thanks for stopping by.</CardText>
+          {form}
         </Card>
       </div>
     );
