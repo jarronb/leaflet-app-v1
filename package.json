@@ -1,7 +1,7 @@
 {
-  "name": "express-api-starter",
+  "name": "Leaflet-Example",
   "version": "1.2.0",
-  "description": " A basic starter for an express.js API",
+  "description": " A basic Leaflet example",
   "main": "src/index.js",
   "engines": {
     "node": "9.2.1"
@@ -15,10 +15,10 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd ./client && npm install && npm run build"
   },
   "keywords": [],
-  "author": "CJ R. <cj@null.computer> (https://w3cj.now.sh)",
+  "author": "Jarron Bailey",
   "repository": {
     "type": "git",
-    "url": "https://github.com/w3cj/express-api-starter.git"
+    "url": "https://github.com/jarronb/leaflet-app-v1"
   },
   "license": "MIT",
   "dependencies": {
