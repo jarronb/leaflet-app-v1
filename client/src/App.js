@@ -54,7 +54,8 @@ class App extends Component {
     zoom: 2,
     sendingMessage: false,
     sentMessage: false,
-    messages: []
+    messages: [],
+    openForm: false
   };
 
   componentDidMount = () => {
@@ -118,7 +119,8 @@ class App extends Component {
     event.preventDefault();
     if (this.formIsValid()) {
       this.setState({
-        sendingMessage: true
+        sendingMessage: true,
+        openForm: false
       });
       fetch(API_URL, {
         method: 'POST',
@@ -145,6 +147,13 @@ class App extends Component {
     }
   };
 
+  plusSignClicked = (event) => {
+    this.setState({
+      openForm: !this.state.openForm
+    });
+    console.log(document.querySelector('#messageForm'));
+  };
+
   render() {
     console.log(this.state.messages.length === 0);
     const position = [this.state.location.lat, this.state.location.lng];
@@ -161,7 +170,7 @@ class App extends Component {
                 type='text'
                 name='name'
                 id='name'
-                placeholder='Enter your name'
+                placeholder='Enter name'
                 onChange={this.inputChanged}
               />
             </FormGroup>
@@ -230,6 +239,31 @@ class App extends Component {
       );
     }
 
+    let plusSign = (
+      <img
+        alt='plus sign'
+        className='plus-sign'
+        src='https://img.icons8.com/ios/100/000000/plus-2-math-filled.png'
+        onClick={this.plusSignClicked}
+      />
+    );
+
+    let card = (
+      <Card body className='message-form'>
+        <CardTitle>Welcome to Mapper</CardTitle>
+        <CardText>Leave a message with your location!</CardText>
+        <CardText>Thanks for stopping by.</CardText>
+        {form}
+        {this.state.sentMessage ? (
+          <CardText>
+            <strong>Thanks For submitting the message</strong>
+          </CardText>
+        ) : (
+          ''
+        )}
+      </Card>
+    );
+
     return (
       <div className='Map'>
         <Map center={position} zoom={this.state.zoom} className='Map'>
@@ -237,21 +271,9 @@ class App extends Component {
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           />
+          {this.state.openForm ? card : plusSign}
           {markers}
         </Map>
-        <Card body className='message-form'>
-          <CardTitle>Welcome to Mapper</CardTitle>
-          <CardText>Leave a message with your location!</CardText>
-          <CardText>Thanks for stopping by.</CardText>
-          {form}
-          {this.state.sentMessage ? (
-            <CardText>
-              <strong>Thanks For submitting the message</strong>
-            </CardText>
-          ) : (
-            ''
-          )}
-        </Card>
       </div>
     );
   }
