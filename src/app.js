@@ -21,10 +21,10 @@ app.use('/api/v1', api);
 
 if (!dev) {
   console.log('Production');
-  console.log(path.join(__dirname, '../../client', 'build', 'index.html'));
-  app.use(express.static(path.join(__dirname, '../../client', 'build')));
+  console.log(path.join(__dirname, '../client', 'build', 'index.html'));
+  app.use(express.static(path.join(__dirname, '../client', 'build')));
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../client', 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client', 'build', 'index.html'));
   });
 }
 
